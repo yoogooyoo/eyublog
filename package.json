@@ -1,0 +1,75 @@
+{
+  "name": "eyublog",
+  "version": "1.0.0",
+  "description": "Ethan Yu's blog",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --config webpack.config.dev.js --watch",
+    "dll": "cross-env NODE_ENV=production webpack --config dll.config.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoogooyoo/eyublog.git"
+  },
+  "keywords": [
+    "React",
+    "Redux",
+    "React-router",
+    "ES6",
+    "webpack",
+    "express"
+  ],
+  "author": "Ethan Yu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoogooyoo/eyublog/issues"
+  },
+  "homepage": "https://github.com/yoogooyoo/eyublog#readme",
+  "dependencies": {
+    "antd": "^3.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "highlight.js": "^9.12.0",
+    "jade": "^1.11.0",
+    "marked": "^0.3.12",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "promise-polyfill": "^7.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "whatwg-fetch": "^2.0.3",
+    "wowjs": "^1.1.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-import": "^1.6.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.1.3",
+    "css-loader": "^0.28.9",
+    "cssnano": "^3.10.0",
+    "exports-loader": "^0.6.4",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "node-sass": "^4.7.2",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "redux-immutable-state-invariant": "^2.1.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0"
+  }
+}
