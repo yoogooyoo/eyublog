@@ -30,7 +30,7 @@ app.use(session({
 
 // static file directory
 app.use(express.static(path.join(__dirname, '../public')))
-app.use(express.static(path.join(__dirname, '../../resource')))
+app.use(express.static(path.join(__dirname, './resource')))
 
 app.use(function (req, res, next) {
   if(req.session.record || req.url === '/get-navside-info') {

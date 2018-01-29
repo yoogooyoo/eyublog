@@ -21,22 +21,22 @@ module.exports.getArticles = function (req, res, next) {
 
     condition += ` and (tag = ${tag} or tag like ${likeTag1} or tag like ${likeTag2})`;
   }
-  if(keyword != null && keyword.trim() !== '') {
+  if(keyword !== null && keyword.trim() !== '') {
     keyword = mysql.escape(`%${keyword}%`)
     condition += ` and (body like ${keyword} or title like ${keyword} or tag like ${keyword}`
   }
   if(category !== null && +category !== 0) {
     condition += ` and category = ${+category}`
   }
-  if(type != null && +type !== 0) {
+  if(type !== null && +type !== 0) {
     condition += ` and type = ${+type}`
   }
 
   sql += condition
   sql += " order by created_at desc"
 
-  if(count != null) {
-    if(current != null) {
+  if(count !== null) {
+    if(current !== null) {
       sql += ` limit ${(+current - 1) * +count}, ${+count}`
       totalSql += "select count(*) as total from article" + condition
     }
@@ -45,7 +45,7 @@ module.exports.getArticles = function (req, res, next) {
     }
   }
 
-  var deviceAgent = req.headers["user-agent"].toLowerCase(),
+  let deviceAgent = req.headers["user-agent"].toLowerCase(),
       agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/),
       absLen = agentID ? 86 : 130;
 
@@ -53,7 +53,7 @@ module.exports.getArticles = function (req, res, next) {
     let info = {}
     let articles = []
 
-    if(err) {
+    if (err) {
       console.log(err)
       res.join({'status': 0, 'message': 'error'})
     }
@@ -71,7 +71,7 @@ module.exports.getArticles = function (req, res, next) {
       })
       info['article'] = articles
 
-      if(current != null) {
+      if(current !== null) {
         db.query(totalSql, function (err, totalRows) {
           if(err) {
             console.log(err)
@@ -112,7 +112,55 @@ module.exports.getArticleDetail = function (req, res, next) {
 }
 
 module.exports.getTimeline = function (req, res, next) {
-//  TBA
+  let sqls = [
+    "select id, theme from category where status = 1"
+  ]
+
+  let { current = 1, count = 30, category = 0 } = req.query
+
+  let sql = ""
+  let field = "article.id, title, created_at"
+
+  if (category === 0) {
+    sql = `select ${field} from article where article.status = 1
+           order by created_at desc limit ${(+current-1)* +count}, ${+count}`
+    sqls.push(sql)
+
+    sql = `select count(*) as total from article where status = 1`
+    sqls.push(sql)
+  } else {
+    sql = `select ${field} from article where category = ${+category} and article.status = 1
+           order by created_at desc limit ${(+current-1) * +count}, ${+count}`
+    sqls.push(sql)
+
+    sql = `select count(*) as total from article where status = 1 and category = ${+category}`
+    sqls.push(sql)
+  }
+
+  let ps = []
+  for (let sql of sqls) {
+    ps.push(new Promise(function (resolve, reject) {
+      db.query(sql, function (err, rows) {
+        if (err) {
+          reject(err)
+        }
+        resolve(rows)
+      })
+    }))
+  }
+
+  let p = Promise.all(ps)
+  p.then(function (out) {
+    res.json({
+      status: 1,
+      categories: out[0],
+      items: out[1],
+      total: out[2][0]['total']
+    })
+  }).catch(function (err) {
+    console.log(err)
+    res.json({"status": 0, "message": ''})
+  })
 }
 
 
