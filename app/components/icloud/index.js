@@ -20,7 +20,7 @@ export default ({tags}) => {
   while (tags.length > 0) {
     res.push(tags.pop())
 
-    if (tags.length === 0) {
+    if (tags.length == 0) {
       break
     }
 

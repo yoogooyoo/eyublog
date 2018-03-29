@@ -22,7 +22,7 @@ class NavTop extends Component {
   }
 
   onSearch = (keyword) => {
-    if(keyword.trim() === '') {
+    if(keyword.trim() == '') {
       return;
     }
 
@@ -46,7 +46,9 @@ class NavTop extends Component {
   }
 
   handleMouseOver = () => {
-
+    if (loadlive2d) {
+      showMessage(document.querySelector('.live2d-message'), 'Need Help?', 3000)
+    }
   }
 
   render() {
@@ -75,7 +77,13 @@ class NavTop extends Component {
             ))
           }
           <div style={{padding: "10px"}}>
-            {/*search box, TBA*/}
+            <Search
+              size="large"
+              placeholder="Search"
+              value={this.state.keyword}
+              onSearch={this.onSearch}
+              onChange={this.handleChange}
+            />
           </div>
         </div>
       </Col>
@@ -114,7 +122,13 @@ class NavTop extends Component {
                     ))
                   }
                   <div className="nav-top-search" onMouseOver={this.handleMouseOver}>
-                    {/*search box , TBA*/}
+                    <Search
+                      size="large"
+                      placeholder="Search"
+                      value={this.state.keyword}
+                      onSearch={this.onSearch}
+                      onChange={this.handleChange}
+                    />
                   </div>
                 </ul>
               </div>

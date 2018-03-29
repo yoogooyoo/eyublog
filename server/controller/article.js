@@ -9,34 +9,33 @@ module.exports.getArticles = function (req, res, next) {
 
   let field = "article.id, title, body, tag, created_at, views, theme"
   let sql = `select ${field} from article join category
-              on article.category = category.id
-            `,
+              on article.category = category.id`,
       condition = " where article.status = 1",
       totalSql = ''
 
-  if(tag !== null) {
+  if(tag != null) {
     let likeTag1 = mysql.escape(`%${tag + " "}%`),
         likeTag2 = mysql.escape(`%${" " + tag}%`);
     tag = mysql.escape(`${tag}`)
 
     condition += ` and (tag = ${tag} or tag like ${likeTag1} or tag like ${likeTag2})`;
   }
-  if(keyword !== null && keyword.trim() !== '') {
+  if(keyword != null && keyword.trim() !== '') {
     keyword = mysql.escape(`%${keyword}%`)
     condition += ` and (body like ${keyword} or title like ${keyword} or tag like ${keyword}`
   }
-  if(category !== null && +category !== 0) {
+  if(category != null && +category !== 0) {
     condition += ` and category = ${+category}`
   }
-  if(type !== null && +type !== 0) {
+  if(type != null && +type !== 0) {
     condition += ` and type = ${+type}`
   }
 
   sql += condition
   sql += " order by created_at desc"
 
-  if(count !== null) {
-    if(current !== null) {
+  if(count != null) {
+    if(current != null) {
       sql += ` limit ${(+current - 1) * +count}, ${+count}`
       totalSql += "select count(*) as total from article" + condition
     }
@@ -69,9 +68,9 @@ module.exports.getArticles = function (req, res, next) {
           'theme': item.theme
         })
       })
-      info['article'] = articles
+      info['articles'] = articles
 
-      if(current !== null) {
+      if(current != null) {
         db.query(totalSql, function (err, totalRows) {
           if(err) {
             console.log(err)
@@ -113,7 +112,7 @@ module.exports.getArticleDetail = function (req, res, next) {
 
 module.exports.getTimeline = function (req, res, next) {
   let sqls = [
-    "select id, theme from category where status = 1"
+    `select id, theme from category where status = 1`
   ]
 
   let { current = 1, count = 30, category = 0 } = req.query
@@ -121,9 +120,9 @@ module.exports.getTimeline = function (req, res, next) {
   let sql = ""
   let field = "article.id, title, created_at"
 
-  if (category === 0) {
-    sql = `select ${field} from article where article.status = 1
-           order by created_at desc limit ${(+current-1)* +count}, ${+count}`
+  if (category == 0) {
+    sql = `select ${field} from article where status = 1
+           order by created_at desc limit ${(+current-1) * +count}, ${+count}`
     sqls.push(sql)
 
     sql = `select count(*) as total from article where status = 1`
@@ -150,7 +149,7 @@ module.exports.getTimeline = function (req, res, next) {
   }
 
   let p = Promise.all(ps)
-  p.then(function (out) {
+  p.then(function(out) {
     res.json({
       status: 1,
       categories: out[0],

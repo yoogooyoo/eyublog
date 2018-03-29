@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { Row, Col, BackTop } from 'antd'
 
+import Live2d from '../components/live2d'
 import Footer from '../components/footer'
 import NavTop from '../components/nav-top'
 import NavSide from '../components/nav-side'
@@ -19,7 +20,7 @@ function itemRender(route, params, routes, paths) {
             ?
             null
             :
-            <span>{routes.breadcrumbName}</span>
+            <span>{route.breadcrumbName}</span>
           :
           routes.length === 2 && routes[1].name === 'home'
             ?
@@ -49,6 +50,7 @@ export default({children, ...rest}) => {
         </Row>
       </div>
       <Footer />
+      <Live2d />
       <BackTop />
     </div>
   )

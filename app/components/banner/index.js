@@ -28,7 +28,7 @@ class Banner extends Component {
     return this.state.index !== nextState.index
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearInterval(this.handle)
   }
 
@@ -52,7 +52,7 @@ class Banner extends Component {
             <div className="banner-list clearfix">
               {
                 imgList.map((img, index) => {
-                  let opacity = this.state.index === index ? 1 : 0
+                  let opacity = this.state.index == index ? 1 : 0
                   return (
                     <div className="banner-item" key={index} style={{opacity: opacity}}>
                       <img src={img} alt="" />
@@ -68,7 +68,7 @@ class Banner extends Component {
                 imgList.map((img, index) => {
                   return (
                     <div className="banner-preview-item" key={index}>
-                      <img src={img} alt="" />
+                      <img src={img} data-key={index} alt="" />
                     </div>
                   )
                 })

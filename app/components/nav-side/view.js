@@ -11,9 +11,6 @@ import './index.scss'
 export const stateKey = 'nav-side'
 
 class NavSide extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.props.getNavInfo();

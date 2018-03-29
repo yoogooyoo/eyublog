@@ -5,7 +5,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import resetEnhancer from './enhancer/reset.js'
 import {reducer as navSideReducer, stateKey } from './components/nav-side'
 
-let prod = process.env.NODE_ENV === 'production'
+let prod = process.env.NODE_ENV === 'production' ? true : false
 
 const middleware = [thunkMiddleware]
 const win = window
@@ -17,7 +17,9 @@ const originalReducers = {
 const reducer = combineReducers(originalReducers)
 
 if (!prod) {
-// TBA
+  const Perf = require('react-addons-perf')
+  win.Perf = Perf
+  middleware.push(require('redux-immutable-state-invariant').default())
 }
 
 const storeEnhancers = compose(

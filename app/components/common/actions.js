@@ -17,7 +17,7 @@ export const fetchInfo = (url, actionTypes, callback ) => {
         throw new Error('Load Failed, Status:' + res.status);
       }
       res.json().then((data) => {
-        if(data.status === 0) {
+        if(data.status == 0) {
           dispatch(fetchFail(actionTypes[2], data.message));
         }
 
@@ -30,6 +30,8 @@ export const fetchInfo = (url, actionTypes, callback ) => {
         }
 
         if(callback) callback();
+      }).catch((error) => {
+        dispatch(fetchFail(actionTypes[2], error))
       })
     }).catch((error) => {
       dispatch(fetchFail(actionTypes[2], error));
